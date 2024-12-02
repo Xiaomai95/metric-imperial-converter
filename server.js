@@ -1,14 +1,15 @@
 'use strict';
 
-const express     = require('express');
-const bodyParser  = require('body-parser');
-const expect      = require('chai').expect;
-const cors        = require('cors');
+const express = require('express');
+const bodyParser = require('body-parser');
+const expect = require('chai').expect;
+const cors = require('cors');
 require('dotenv').config();
+const ConvertHandler = require('./controllers/convertHandler.js')
 
-const apiRoutes         = require('./routes/api.js');
-const fccTestingRoutes  = require('./routes/fcctesting.js');
-const runner            = require('./test-runner');
+const apiRoutes = require('./routes/api.js');
+const fccTestingRoutes = require('./routes/fcctesting.js');
+const runner = require('./test-runner');
 
 let app = express();
 
@@ -18,6 +19,22 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//instance of convertHandler
+const convertHandler = new ConvertHandler();
+// Use this url to test:
+// https://3000-freecodecam-boilerplate-miw4dmvwkl4.ws-eu117.gitpod.io/api/convert?input=5
+
+app.get('/api/convert', (req, res) => {
+  let input = req.query
+  convertHandler.getNum(input)
+  convertHandler.getUnit(input)
+  convertHandler.getReturnUnit(input)
+  convertHandler.spellOutUnit(input)
+  convertHandler.convert(input)
+  convertHandler.getString(input)
+  // handle errors
+})
 
 //Index page (static HTML)
 app.route('/')
