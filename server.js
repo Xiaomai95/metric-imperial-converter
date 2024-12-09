@@ -20,22 +20,6 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//instance of convertHandler
-const convertHandler = new ConvertHandler();
-// Use this url to test:
-// https://3000-freecodecam-boilerplate-miw4dmvwkl4.ws-eu117.gitpod.io/api/convert?input=5
-
-app.get('/api/convert', (req, res) => {
-  let input = req.query
-  convertHandler.getNum(input)
-  convertHandler.getUnit(input)
-  convertHandler.getReturnUnit(input)
-  convertHandler.spellOutUnit(input)
-  convertHandler.convert(input)
-  convertHandler.getString(input)
-  // handle errors
-})
-
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {

@@ -48,8 +48,13 @@
             type: 'get',
             data: $('#convertForm').serialize(),
             success: function(data) {
-              $('#result').text(data.string || data);
-              $('#jsonResult').text(JSON.stringify(data));
+              if (data.error) {
+          $('#result').text(data.error); // Display the error message
+          $('#jsonResult').text(JSON.stringify(data.error)); // display error message as string from JSON object
+        } else {
+          $('#result').text(data.string || 'Conversion successful!');
+          $('#jsonResult').text(JSON.stringify(data, null, 2)); // Pretty-print JSON object
+        }
             }
           });
         });
